@@ -1,0 +1,56 @@
+web:
+#  upload-path: E://file
+  upladd-path: /home/tim/myprojects/file
+server:
+  port: 8008
+  servlet:
+    context-path: /api
+
+spring:
+  resources:
+    static-locations: file:${web.upload-path}
+
+  mvc:
+    formcontent:
+      filter:
+        enabled: true
+
+  jmx:
+    enabled: true
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/msmd?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 50MB
+
+
+
+#  redis:
+#    host: localhost
+#    port: 1024
+#    database: 0
+#    jedis:
+#      pool:
+#        min-idle: 5
+#        max-idle: 10
+
+
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: net.msmd.api.bean
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    map-underscore-to-camel-case: on
+logging:
+  level:
+    lombok.core.debug: debug
+  file:
+    path: /home/tim/myprojects/log
+#    path: E://file/log
+#  config: log4j2.properties
