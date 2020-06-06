@@ -27,7 +27,7 @@
         WHERE
         user_account = #{userAccount}
         AND
-        password = #{password}
+        password = #{userPassword}
     </select>
 
 <!--    findUserById    -->

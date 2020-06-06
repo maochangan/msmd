@@ -11,12 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*" , maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/auth")
 public class UserAuthController {
@@ -30,16 +27,16 @@ public class UserAuthController {
     private TokenServer tokenServer;
 
     @PostMapping("/login")
-    public JsonResult loginMethod(@Validated LoginUserVO loginUser){
+    public JsonResult loginMethod(@Validated LoginUserVO loginUser) {
         try {
             if (StringUtils.isEmpty(loginUser)) {
                 return JsonResult.fail().add("msg", "please check your account");
             }
             SerResult<LoginUserBO> result = userAuthServer.loginMethod(loginUser);
-            if(result.isSuccess()){
+            if (result.isSuccess()) {
                 String token = tokenServer.getToken(result.getValue());
                 return JsonResult.success().add("token", token);
-            }else{
+            } else {
                 return JsonResult.fail();
             }
 
@@ -49,9 +46,13 @@ public class UserAuthController {
         }
     }
 
-
-
-
-
-
+    @GetMapping("/logout")
+    public JsonResult logout(){
+        try {
+            return JsonResult.success().add("token", "");
+        } catch (Exception e) {
+            logger.error("e" + e.getMessage());
+            return JsonResult.error();
+        }
+    }
 }
