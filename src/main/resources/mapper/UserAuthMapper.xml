@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.msmd.api.dao.TestDao">
+
+    <resultMap id="loginUserBO" type="net.msmd.api.bean.bo.LoginUserBO">
+        <id column="id" jdbcType="INTEGER" property="userID" javaType="Integer"></id>
+        <result column="user_name" jdbcType="VARCHAR" property="userName" javaType="String"></result>
+        <result column="password" jdbcType="VARCHAR" property="password" javaType="String"></result>
+        <result column="user_age" jdbcType="INTEGER" property="userAge" javaType="Integer"></result>
+        <result column="gmt_create_time" jdbcType="DATE" property="gmtCreateTime" javaType="String"></result>
+        <result column="gmt_modified_time" jdbcType="DATE" property="gmtModifiedTime" javaType="String"></result>
+        <result column="status" jdbcType="INTEGER" property="status" javaType="Integer"></result>
+    </resultMap>
+
+
+<!--    findUserByAccountAndPassword-->
+</mapper>
