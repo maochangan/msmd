@@ -5,6 +5,7 @@ import net.msmd.api.bean.vo.LoginUserVO;
 import net.msmd.api.server.UserAuthServer;
 import net.msmd.api.util.JsonResult;
 import net.msmd.api.util.SerResult;
+import net.msmd.api.util.token.TokenServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class UserAuthController {
     @Autowired
     private UserAuthServer userAuthServer;
 
+    @Autowired
+    private TokenServer tokenServer;
+
     @PostMapping("/login")
     public JsonResult loginMethod(@Validated LoginUserVO loginUser){
         try {
@@ -33,9 +37,10 @@ public class UserAuthController {
             }
             SerResult<LoginUserBO> result = userAuthServer.loginMethod(loginUser);
             if(result.isSuccess()){
-                return null;
+                String token = tokenServer.getToken(result.getValue());
+                return JsonResult.success().add("token", token);
             }else{
-                return null;
+                return JsonResult.fail();
             }
 
         } catch (Exception e) {

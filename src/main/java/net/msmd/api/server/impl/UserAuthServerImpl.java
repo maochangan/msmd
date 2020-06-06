@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 @Transactional
@@ -25,6 +26,21 @@ public class UserAuthServerImpl implements UserAuthServer {
         try {
             LoginUserBO result = userAuthDAO.findUserByAccountAndPassword(loginUser);
             if(null == result){
+                return SerResult.createFail();
+            }else{
+                return SerResult.createSuccess(result);
+            }
+        } catch (Exception e) {
+            logger.error("e" + e.getMessage());
+            return SerResult.createError();
+        }
+    }
+
+    @Override
+    public SerResult<LoginUserBO> findUserById(int parseInt) {
+        try {
+            LoginUserBO result = userAuthDAO.findUserById(parseInt);
+            if (StringUtils.isEmpty(result)) {
                 return SerResult.createFail();
             }else{
                 return SerResult.createSuccess(result);

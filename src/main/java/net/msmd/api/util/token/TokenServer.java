@@ -1,12 +1,12 @@
 package net.msmd.api.util.token;
 
-import net.msmd.api.bean.UserInfo;
+import net.msmd.api.bean.bo.LoginUserBO;
 
 import java.util.Date;
 
 public interface TokenServer {
 
-    public String getToken(UserInfo user);
+    public String getToken(LoginUserBO user);
 
     public String refreshToken(String token);
 

@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.msmd.api.dao.TestDao">
+<mapper namespace="net.msmd.api.dao.UserAuthDAO">
 
     <resultMap id="loginUserBO" type="net.msmd.api.bean.bo.LoginUserBO">
-        <id column="id" jdbcType="INTEGER" property="userID" javaType="Integer"></id>
+        <id column="id" jdbcType="INTEGER" property="id" javaType="Integer"></id>
         <result column="user_name" jdbcType="VARCHAR" property="userName" javaType="String"></result>
         <result column="password" jdbcType="VARCHAR" property="password" javaType="String"></result>
-        <result column="user_age" jdbcType="INTEGER" property="userAge" javaType="Integer"></result>
-        <result column="gmt_create_time" jdbcType="DATE" property="gmtCreateTime" javaType="String"></result>
-        <result column="gmt_modified_time" jdbcType="DATE" property="gmtModifiedTime" javaType="String"></result>
-        <result column="status" jdbcType="INTEGER" property="status" javaType="Integer"></result>
+        <result column="user_account" jdbcType="VARCHAR" property="userAccount" javaType="String"></result>
     </resultMap>
+
+    <sql id="userBOSql">
+        id,
+        user_account,
+        user_name,
+        user_password
+    </sql>
 
 
 <!--    findUserByAccountAndPassword-->
+
+    <select id="findUserByAccountAndPassword" resultMap="loginUserBO">
+        SELECT
+        <include refid="userBOSql"></include>
+        FROM
+        simple_user
+        WHERE
+        user_account = #{userAccount}
+        AND
+        password = #{password}
+    </select>
+
+<!--    findUserById    -->
+    <select id="findUserById" resultMap="loginUserBO">
+        SELECT
+        <include refid="userBOSql"></include>
+        FROM
+        simple_user
+        WHERE
+        id = #{id}
+    </select>
+
 </mapper>

@@ -4,8 +4,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import net.msmd.api.bean.LoginUser;
-import net.msmd.api.server.LoginUserServer;
+import net.msmd.api.bean.bo.LoginUserBO;
+import net.msmd.api.server.UserAuthServer;
+import net.msmd.api.util.SerResult;
 import net.msmd.api.util.token.PassToken;
 import net.msmd.api.util.token.UserLoginToken;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private LoginUserServer loginUserServer;
+    private UserAuthServer userAuthServer;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
@@ -58,12 +59,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 } catch (JWTDecodeException j) {
                     throw new RuntimeException("401");
                 }
-                LoginUser user = loginUserServer.findUserById(Integer.parseInt(userId));
-                if (user == null) {
+                SerResult<LoginUserBO> result = userAuthServer.findUserById(Integer.parseInt(userId));
+                if (!result.isSuccess()) {
                     throw new RuntimeException("用户不存在，请重新登录");
                 }
                 // 验证 token
-                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
+                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(result.getValue().getPassword())).build();
                 try {
                     jwtVerifier.verify(token);
                 } catch (Exception e) {

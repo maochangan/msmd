@@ -19,9 +19,9 @@ spring:
     enabled: true
 
   datasource:
-    url: jdbc:mysql://localhost:3306/msmd?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: root
+    url: jdbc:mysql://localhost:3306/msmd_default?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: test1
+    password: Change930914!
   servlet:
     multipart:
       max-file-size: 100MB
