@@ -16,6 +16,6 @@ public class LoginUserVO implements Serializable {
 
     @NotEmpty(message = "password can't be null")
     private String userPassword;
-
+//change something
 
 }
